@@ -3,7 +3,7 @@ import './App.css';
 import RegisterForm from "./components/Form";
 
 function App() {
-  let [users, setUsers] = useState([{username: "Jord", email: "jordandoan@hotmail.com", password:"gambling2009", checked:true}]);
+  let [users, setUsers] = useState([{username: "Jord", email: "jordandoan@hotmail.com",job:"Archer", password:"gambling2009", checked:true}]);
   return (
     <div className="App">
       <RegisterForm users={users} setUsers={setUsers}/>
@@ -15,6 +15,7 @@ function App() {
         <div className="user-card" key={user.username}>
           <p>Username: {user.username}</p>
           <p>Email: {user.email}</p>
+          <p>Class: {user.job}</p>
         </div>
       )
     }

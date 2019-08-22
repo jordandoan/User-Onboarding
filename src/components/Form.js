@@ -22,6 +22,18 @@ const RegisterForm = ({ values, errors, touched, setUsers, users, status }) => {
                     {touched.email && errors.email && <p className="error">{errors.email}</p>}
                     <Field className="form-input" type="text" name="email" placeholder="Email"/>
                 </div>
+                <div className="field select-container">
+                    {touched.job && errors.job && <p className="error">{errors.job}</p>}
+                    <div className="select-field">
+                        <Field component="select" name="job" >
+                            <option value={null}>Class/Job</option>
+                            <option value="Warrior">Warrior</option>
+                            <option value="Archer">Archer</option>
+                            <option value="Thief">Thief</option>
+                            <option value="Magician">Magician</option>
+                        </Field>
+                    </div>
+                </div>
                 <div className="field">
                     {touched.password && errors.password && <p className="error">{errors.password}</p>}
                     <Field className="form-input" type="password" name="password" placeholder="Password"/>
@@ -41,9 +53,10 @@ const RegisterForm = ({ values, errors, touched, setUsers, users, status }) => {
 }
 
 const FormikRegisterForm = withFormik({
-    mapPropsToValues({username, email, password, tos}) {
+    mapPropsToValues({username, job, email, password, tos}) {
         return {
             username: username || "",
+            job: job || "",
             email: email || "",
             password: password || "",
             tos: tos || false,
@@ -55,6 +68,8 @@ const FormikRegisterForm = withFormik({
         username: Yup.string()
         .min(5, "Username must be 5 characters or longer")
         .required("Username is required."),
+        job: Yup.string()
+        .required("A class is required."),
         email: Yup.string()
         .email("Email not valid")
         .required("Email is required."),
@@ -70,14 +85,18 @@ const FormikRegisterForm = withFormik({
           )
     }),
 
-    handleSubmit(values, {setStatus, resetForm}) {
+    handleSubmit(values, {setErrors, setStatus, resetForm}) {
+        console.log(values);
+        if (values.email === "waffle@syrup.com") {
+            setErrors({email: "This email is already registered"});
+        } else {
         axios.post("https://reqres.in/api/users", values)
             .then((res) => {
                 setStatus(res.data);
                 resetForm();
             })
             .catch(err => console.log(err.response));
-        
+        }
     }
 })(RegisterForm)
 
