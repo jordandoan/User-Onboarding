@@ -11,24 +11,28 @@ const RegisterForm = ({ values, errors, touched, setUsers, users, status }) => {
     }, [status]);
 
     return (
-        <div>
+        <div className="container">
             <h2>Register Today!</h2>
             <Form>
-                <div>
-                    {touched.username && errors.username && (<p>{errors.username}</p>)}
-                    <Field type="text" name="username" placeholder ="Username"/>
+                <div className="field">
+                    {touched.username && errors.username && (<p className="error">{errors.username}</p>)}
+                    <Field className="form-input" type="text" name="username" placeholder ="Username"/>
                 </div>
-                <div>
-                    {touched.email && errors.email && <p>{errors.email}</p>}
-                    <Field type="text" name="email" placeholder="Email"/>
+                <div className="field">
+                    {touched.email && errors.email && <p className="error">{errors.email}</p>}
+                    <Field className="form-input" type="text" name="email" placeholder="Email"/>
                 </div>
-                <div>
-                    {touched.password && errors.password && <p>{errors.password}</p>}
-                    <Field type="password" name="password" placeholder="Password"/>
+                <div className="field">
+                    {touched.password && errors.password && <p className="error">{errors.password}</p>}
+                    <Field className="form-input" type="password" name="password" placeholder="Password"/>
                 </div>
-                <div>
-                    {touched.tos && errors.tos && <p>{errors.tos}</p>}
-                    <label><Field type="checkbox" name="tos" checked={values.tos}/>Do you accept our Terms of Service?</label>
+                <div className="field">
+                    {touched.tos && errors.tos && <p className="error">{errors.tos}</p>}
+                    <label className="checkbox-container">
+                        Do you accept our Terms of Service?
+                        <Field type="checkbox" name="tos" checked={values.tos}/>
+                        <span className="checkmark"></span>
+                    </label>
                 </div>
                 <button type="submit">Submit</button>
             </Form>
@@ -45,7 +49,8 @@ const FormikRegisterForm = withFormik({
             tos: tos || false,
         };
     },
-
+    validateOnChange:false,
+    validateOnBlur:false,
     validationSchema: Yup.object().shape({
         username: Yup.string()
         .min(5, "Username must be 5 characters or longer")
